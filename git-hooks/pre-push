@@ -1,0 +1,24 @@
+#!/bin/sh
+
+docker-compose up -d
+
+# Redirect output to stderr
+
+2>&1
+
+# Elixir
+## Run tests
+
+docker-compose run web mix test
+if [ "$?" -ne 0 ]; then
+    echo "TESTS FAILED!"
+    exit 1
+fi
+
+## Run checks
+
+docker-compose run web mix check
+if [ "$?" -ne 0 ]; then
+    echo "CHECKS FAILED!"
+    exit 2
+fi

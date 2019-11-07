@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if [ "z${GIT_DEBUG}" != "z" ]; then
+    set -x
+fi
+
+if [ -a .commit ]; then
+    for FILE in $(cat .commit); do
+        echo "[post-commit] adding file modified by pre-commit hook: ${FILE}"
+        git add "${FILE}"
+    done
+    rm .commit
+    git commit -S --amend -C HEAD --no-verify > /dev/null
+fi
+exit
+
+# vim: ft=sh:
