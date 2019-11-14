@@ -33,3 +33,14 @@ if [ "z${GQL_SRCS}" != "z" ]; then
         echo "${GQL_FILE}" >> .commit
     done
 fi
+
+# Elm
+## format
+ELM_SRCS=$(git diff --cached --name-only --diff-filter=ACM --no-color | grep --color=never -e '\.elm$')
+
+if [ "z${ELM_SRCS}" != "z" ]; then
+    for ELM_FILE in ${ELM_SRCS}; do
+        elm-format --yes "${ELM_FILE}"
+        echo "${ELM_FILE}" >> .commit
+    done
+fi
